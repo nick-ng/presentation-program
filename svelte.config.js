@@ -19,6 +19,11 @@ const config = {
 			strict: true
 		}),
 		paths: {}
+	},
+	compilerOptions: {
+		experimental: {
+			async: true
+		}
 	}
 };
 
