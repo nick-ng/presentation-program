@@ -17,7 +17,7 @@
 
 <div
 	id={`slide-${slideId}`}
-	class={`markdown-body border p-16 ${slideId === 0 ? 'first-slide' : ''}`}
+	class={`markdown-body border-b p-16 ${slideId === 0 ? 'first-slide' : ''}`}
 	style={`height: calc(100vh - ${topGap}px);${fontSizeStyle}${titleSlideStyle}`}
 >
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
