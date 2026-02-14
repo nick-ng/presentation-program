@@ -6,9 +6,10 @@
 
 	interface Props {
 		presentationMd: string;
+		noKeyboard?: boolean;
 	}
 
-	let { presentationMd }: Props = $props();
+	let { presentationMd, noKeyboard }: Props = $props();
 	let currentSlide = $state(0);
 	let voices: ReturnType<typeof speechSynthesis.getVoices> = $state([]);
 	let chosenVoice = $derived(voices.find((v) => v.voiceURI === $optionsStore.voiceUri));
@@ -70,6 +71,9 @@
 		speechSynthesis.addEventListener('voiceschanged', loadVoices);
 
 		const handleKeyup = (event: KeyboardEvent) => {
+			if (noKeyboard) {
+				return;
+			}
 			switch (event.key) {
 				case 'ArrowRight': {
 					if (currentSlide < slides.length) {
