@@ -6,11 +6,9 @@
 
 	interface Props {
 		presentationMd: string;
-		fontSizePercent?: number;
-		topGap?: number;
 	}
 
-	let { presentationMd, fontSizePercent = 180, topGap = 0 }: Props = $props();
+	let { presentationMd }: Props = $props();
 	let currentSlide = $state(0);
 	let voices: ReturnType<typeof speechSynthesis.getVoices> = $state([]);
 	let chosenVoice = $derived(voices.find((v) => v.voiceURI === $optionsStore.voiceUri));
@@ -119,7 +117,7 @@
 
 {#if presentationMd.length > 0}
 	{#each slides as slide, i (i)}
-		<Slide slideId={i} slideMd={slide.md} {fontSizePercent} {topGap} />
+		<Slide slideId={i} slideMd={slide.md} />
 	{/each}
 	<div>End</div>
 {/if}
