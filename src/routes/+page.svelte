@@ -123,6 +123,28 @@
 			</label>
 		</div>
 		<div>
+			<button
+				class="border border-black px-2"
+				type="button"
+				onclick={async () => {
+					const id = Date.now().toString();
+					const newPresentationItem: PresentationItem = {
+						id,
+						filename: `${id}.md`,
+						name: id
+					};
+					$presentationListStore = $presentationListStore.concat([newPresentationItem]);
+
+					await savePresentationMd(
+						newPresentationItem.id,
+						'# New Presentation\n\nClick on "Edit" to begin'
+					);
+
+					goto(`/?p=${newPresentationItem.id}`);
+				}}>New</button
+			>
+		</div>
+		<div>
 			{#each $presentationListStore as presentationItem (presentationItem.id)}
 				<div class="my-1">
 					<a class="text-blue-800 underline" href={`/?p=${presentationItem.id}`}

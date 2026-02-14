@@ -123,5 +123,4 @@
 	{#each slides as slide, i (i)}
 		<Slide slideId={i} slideMd={slide.md} />
 	{/each}
-	<div>End</div>
 {/if}

@@ -39,7 +39,7 @@
 				>
 				<div class="grow"></div>
 				<button
-					class={`border border-black px-2 ${isSaving ? 'bg-slate-300' : ''}`}
+					class="border border-black px-2"
 					type="button"
 					onclick={async () => {
 						if (presentationId && confirm('Are you sure you want to delete?')) {
