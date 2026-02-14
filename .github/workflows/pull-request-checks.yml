@@ -1,0 +1,19 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: |
+          npm i --ignore-scripts
+          npm run lint
+          npm run check
