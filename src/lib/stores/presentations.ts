@@ -56,3 +56,10 @@ export async function getPresentationMd(presentationId: string | null) {
 export function savePresentationMd(presentationId: string, md: string) {
 	return localforage.setItem(getPresentationMdKey(presentationId), md);
 }
+
+export function deletePresentation(presentationId: string) {
+	presentationListStore.update((prev) => {
+		return prev.filter((p) => p.id !== presentationId);
+	});
+	return localforage.removeItem(getPresentationMdKey(presentationId));
+}
