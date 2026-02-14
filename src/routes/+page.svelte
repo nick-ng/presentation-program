@@ -128,6 +128,7 @@
 					<a class="text-blue-800 underline" href={`/?p=${presentationItem.id}`}
 						>{presentationItem.name} - {presentationItem.id}</a
 					>
+					<a class="text-blue-800 underline" href={`/edit?p=${presentationItem.id}`}>Edit</a>
 					<a class="text-blue-800 underline" href={`/view?p=${presentationItem.id}`}>Present</a>
 				</div>
 			{/each}
