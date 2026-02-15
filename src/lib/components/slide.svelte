@@ -73,6 +73,15 @@
 	.slide {
 		padding: 3.5em;
 	}
+
+	.slide :global ul {
+		list-style-type: disc;
+	}
+
+	.slide :global ol {
+		list-style-type: decimal;
+	}
+
 	.first-slide {
 		display: flex;
 		flex-direction: column;
