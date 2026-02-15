@@ -137,7 +137,7 @@
 
 					await savePresentationMd(
 						newPresentationItem.id,
-						'# New Presentation\n\nClick on "Edit" to begin'
+						'# New Presentation\n\nClick on "Edit" to begin\n\n[comment]: #slide-break\n\n## Second Slide\n\nMore text goes here'
 					);
 
 					goto(`/?p=${newPresentationItem.id}`);
