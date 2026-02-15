@@ -7,16 +7,25 @@
 	} from '$lib/stores/presentations';
 	import Presentation from '$lib/components/presentation.svelte';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	let presentationId = $derived(page.url.searchParams.get('p'));
-	let presentationMd = $derived(await getPresentationMd(presentationId));
+	let presentationMd = $state('');
 	let isSaving = $state(false);
+
+	onMount(() => {
+		const loadPresentation = async () => {
+			presentationMd = await getPresentationMd(presentationId);
+		};
+
+		loadPresentation();
+	});
 </script>
 
 {#if presentationMd?.length > 0}
 	<div class="flex h-screen flex-row gap-2">
 		<div class="grow p-1">
-			<div class="flex flex-row">
+			<div class="flex flex-row gap-2">
 				<button
 					class={`border border-black px-2 ${isSaving ? 'bg-slate-300' : ''}`}
 					type="button"
@@ -37,6 +46,7 @@
 						}
 					}}>Save</button
 				>
+				<a class="text-blue-800 underline" href={`/view?p=${presentationId}`}>View</a>
 				<div class="grow"></div>
 				<button
 					class="border border-black px-2"
