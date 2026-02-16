@@ -76,7 +76,7 @@
 			}
 			switch (event.key) {
 				case 'ArrowRight': {
-					if (currentSlide < slides.length) {
+					if (currentSlide < slides.length - 1) {
 						currentSlide = currentSlide + 1;
 					}
 
