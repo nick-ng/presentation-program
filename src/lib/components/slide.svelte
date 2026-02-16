@@ -82,6 +82,11 @@
 		list-style-type: decimal;
 	}
 
+	.slide :global li {
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+
 	.first-slide {
 		display: flex;
 		flex-direction: column;
