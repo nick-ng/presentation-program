@@ -6,11 +6,13 @@ const OPTIONS_KEY = 'NICK_PRESENTATION_OPTIONS';
 export type OptionsType = {
 	voiceUri: string;
 	volume: number;
+	showSubwaySurfers: boolean;
 };
 
 export const optionsStore = writable<OptionsType>({
 	voiceUri: '',
-	volume: 0.5
+	volume: 0.5,
+	showSubwaySurfers: false
 });
 
 if (browser) {

@@ -3,6 +3,7 @@
 	import { playLinePromise, splitPresentation, sleep } from '$lib/utils';
 	import { optionsStore } from '$lib/stores/options';
 	import Slide from '$lib/components/slide.svelte';
+	import Youtube from './youtube.svelte';
 
 	interface Props {
 		presentationMd: string;
@@ -11,9 +12,12 @@
 
 	let { presentationMd, noKeyboard }: Props = $props();
 	let currentSlide = $state(0);
+	let showOptions = $state(false);
 	let voices: ReturnType<typeof speechSynthesis.getVoices> = $state([]);
 	let chosenVoice = $derived(voices.find((v) => v.voiceURI === $optionsStore.voiceUri));
 	let presentationState = $state('stand-by');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let youtubePlayer: any = $state(null);
 
 	let slides = $derived(splitPresentation(presentationMd));
 
@@ -30,6 +34,12 @@
 			alert('No voice chosen');
 			return;
 		}
+
+		if (youtubePlayer) {
+			youtubePlayer.playVideo();
+			youtubePlayer.setVolume(0);
+		}
+
 		presentationState = 'playing';
 		let playingSlide = currentSlide;
 		while (playingSlide < slides.length) {
@@ -105,6 +115,10 @@
 					playSlides();
 					break;
 				}
+				case ',': {
+					showOptions = !showOptions;
+					break;
+				}
 				default: {
 					console.info('no action associated with key:', event.key);
 				}
@@ -119,8 +133,25 @@
 	});
 </script>
 
-{#if presentationMd.length > 0}
-	{#each slides as slide, i (i)}
-		<Slide slideId={i} slideMd={slide.md} />
-	{/each}
-{/if}
+<div class="relative flex flex-row">
+	{#if showOptions}
+		<div class="fixed top-2 left-2 border border-black p-2">
+			<h3 class="font-bold">Options</h3>
+			<label>
+				<input type="checkbox" bind:checked={$optionsStore.showSubwaySurfers} /> Subway Surfers</label
+			>
+		</div>
+	{/if}
+	<div class="max-h-[100vh] grow overflow-y-auto">
+		{#if presentationMd.length > 0}
+			{#each slides as slide, i (i)}
+				<Slide slideId={i} slideMd={slide.md} />
+			{/each}
+		{/if}
+	</div>
+	{#if $optionsStore.showSubwaySurfers}
+		<div class="h-screen w-[45vh]">
+			<Youtube bind:player={youtubePlayer} initialVideoId="zZ7AimPACzc" />
+		</div>
+	{/if}
+</div>
