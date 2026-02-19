@@ -2,6 +2,7 @@
 	import { sleep } from '$lib/utils';
 	import MarkdownIt from 'markdown-it';
 	import { onMount } from 'svelte';
+	import { optionsStore } from '$lib/stores/options';
 
 	interface Props {
 		slideId?: string | number;
@@ -33,7 +34,8 @@
 				continue;
 			}
 
-			const availWidth = documentRects[0].width;
+			const subway = $optionsStore.showSubwaySurfers ? documentRects[0].height * 0.45 : 0;
+			const availWidth = documentRects[0].width - subway;
 			const availHeight = window.screen.availHeight;
 
 			const aspectRatio = availWidth / availHeight;

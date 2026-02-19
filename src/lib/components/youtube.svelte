@@ -1,0 +1,40 @@
+<script lang="ts">
+	// https://stackoverflow.com/questions/76690112/how-to-use-youtube-embed-api-in-svelte
+	import { onMount } from 'svelte';
+
+	interface Props {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		player: any;
+		initialVideoId: string;
+	}
+
+	let { player = $bindable(), initialVideoId }: Props = $props();
+
+	const ytPlayerId = 'youtube-player';
+
+	onMount(() => {
+		function load() {
+			// eslint-disable-next-line no-undef
+			player = new YT.Player(ytPlayerId, {
+				height: '100%',
+				width: '100%',
+				videoId: initialVideoId,
+				playerVars: { autoplay: 0, loop: 1 }
+			});
+		}
+
+		if (window.YT) {
+			load();
+		} else {
+			window.onYouTubeIframeAPIReady = load;
+		}
+	});
+</script>
+
+<svelte:head>
+	<script src="https://www.youtube.com/iframe_api"></script>
+</svelte:head>
+
+<div class="h-full w-full">
+	<div id={ytPlayerId}></div>
+</div>
