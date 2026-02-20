@@ -4,9 +4,10 @@
 	import Presentation from '$lib/components/presentation.svelte';
 
 	let presentationId = $derived(page.url.searchParams.get('p'));
-	let presentationMd = $derived(await getPresentationMd(presentationId));
+	let presentationSource = $derived(page.url.searchParams.get('s'));
+	let presentationMd = $derived(await getPresentationMd(presentationId, presentationSource));
 </script>
 
-{#if presentationMd?.length > 0}
-	<Presentation {presentationMd} />
+{#if presentationMd.content?.length > 0}
+	<Presentation presentationMd={presentationMd.content} enableExtras />
 {/if}

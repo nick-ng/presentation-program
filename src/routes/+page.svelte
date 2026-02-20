@@ -157,8 +157,8 @@
 		</div>
 	</div>
 	<div class="max-h-screen grow overflow-y-auto">
-		{#if presentationMd?.length > 0}
-			<Presentation {presentationMd} />
+		{#if presentationId && presentationMd.content.length > 0}
+			<Presentation presentationMd={presentationMd.content} />
 		{/if}
 	</div>
 </div>
