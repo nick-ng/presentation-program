@@ -40,17 +40,52 @@ export function getPresentationMdKey(presentationId: string) {
 	return `${PRESENTATION_MD_PREFIX}_${presentationId}`;
 }
 
-export async function getPresentationMd(presentationId: string | null) {
+export async function getPresentationMd(
+	presentationId: string | null,
+	presentationSource: string | null = null
+): Promise<{ title: string; content: string }> {
 	if (!presentationId) {
-		return '';
+		return { title: '', content: '# Error\n\nNo presentation ID provided' };
 	}
 
-	const temp = await localforage.getItem(getPresentationMdKey(presentationId));
-	if (typeof temp !== 'string') {
-		return '';
+	switch (presentationSource) {
+		case 'nickng': {
+			try {
+				const res = await fetch(`https://nick.ng/api/markdown-document/uri/${presentationId}`, {
+					mode: 'cors'
+				});
+
+				const resJson = await res.json();
+				console.log('resJson.content', resJson.content);
+
+				return {
+					title: resJson.title,
+					content: resJson.content
+				};
+			} catch (err) {
+				if (err instanceof Error) {
+					return {
+						title: 'Error',
+						content: '# Error\n\nCould not get presentation.\n\n```\n' + err + '\n```'
+					};
+				}
+			}
+			break;
+		}
+		default: {
+			const temp = await localforage.getItem(getPresentationMdKey(presentationId));
+			if (typeof temp !== 'string') {
+				return { title: '', content: '# Error\n\nPresentation not found' };
+			}
+
+			return { title: '', content: temp };
+		}
 	}
 
-	return temp;
+	return {
+		title: 'Unreachable',
+		content: '# Unreachable\n\nThis part of the code should be unreachable'
+	};
 }
 
 export function savePresentationMd(presentationId: string, md: string) {

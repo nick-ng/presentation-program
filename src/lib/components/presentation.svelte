@@ -8,9 +8,10 @@
 	interface Props {
 		presentationMd: string;
 		noKeyboard?: boolean;
+		enableExtras?: boolean;
 	}
 
-	let { presentationMd, noKeyboard }: Props = $props();
+	let { presentationMd, noKeyboard, enableExtras }: Props = $props();
 	let currentSlide = $state(0);
 	let showOptions = $state(false);
 	let voices: ReturnType<typeof speechSynthesis.getVoices> = $state([]);
@@ -35,7 +36,7 @@
 			return;
 		}
 
-		if (youtubePlayer) {
+		if (youtubePlayer && youtubePlayer.getPlayerState() !== 1) {
 			youtubePlayer.playVideo();
 			youtubePlayer.setVolume(0);
 		}
@@ -134,7 +135,7 @@
 </script>
 
 <div class="relative flex flex-row">
-	{#if showOptions}
+	{#if enableExtras && showOptions}
 		<div class="fixed top-2 left-2 border border-black p-2">
 			<h3 class="font-bold">Options</h3>
 			<label>
@@ -149,7 +150,7 @@
 			{/each}
 		{/if}
 	</div>
-	{#if $optionsStore.showSubwaySurfers}
+	{#if enableExtras && $optionsStore.showSubwaySurfers}
 		<div class="h-screen w-[45vh]">
 			<Youtube bind:player={youtubePlayer} initialVideoId="zZ7AimPACzc" />
 		</div>

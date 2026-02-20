@@ -10,19 +10,20 @@
 	import { onMount } from 'svelte';
 
 	let presentationId = $derived(page.url.searchParams.get('p'));
-	let presentationMd = $state('');
+	let presentationContent = $state('');
 	let isSaving = $state(false);
 
 	onMount(() => {
 		const loadPresentation = async () => {
-			presentationMd = await getPresentationMd(presentationId);
+			const presentation = await getPresentationMd(presentationId);
+			presentationContent = presentation.content;
 		};
 
 		loadPresentation();
 	});
 </script>
 
-{#if presentationMd?.length > 0}
+{#if presentationContent?.length > 0}
 	<div class="flex h-screen flex-row gap-2">
 		<div class="grow p-1">
 			<div class="flex flex-row gap-2">
@@ -34,7 +35,7 @@
 						if (presentationId) {
 							isSaving = true;
 							await Promise.all([
-								savePresentationMd(presentationId, presentationMd),
+								savePresentationMd(presentationId, presentationContent),
 								new Promise((res) => {
 									setTimeout(() => {
 										// minimum delay for feed back
@@ -59,11 +60,11 @@
 					}}>Delete</button
 				>
 			</div>
-			<textarea class="h-[90vh] w-full border border-black p-0.5" bind:value={presentationMd}
+			<textarea class="h-[90vh] w-full border border-black p-0.5" bind:value={presentationContent}
 			></textarea>
 		</div>
 		<div class="w-[50vw] overflow-y-auto border-l border-black">
-			<Presentation {presentationMd} noKeyboard />
+			<Presentation presentationMd={presentationContent} noKeyboard />
 		</div>
 	</div>
 {:else}
