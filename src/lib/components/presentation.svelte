@@ -151,7 +151,7 @@
 		{/if}
 	</div>
 	{#if enableExtras && $optionsStore.showSubwaySurfers}
-		<div class="h-screen w-[45vh]">
+		<div class="h-screen w-[45vh] shrink-0">
 			<Youtube bind:player={youtubePlayer} initialVideoId="zZ7AimPACzc" />
 		</div>
 	{/if}
